@@ -1,0 +1,2 @@
+# TODO: Use variables from .env file.
+docker build --build-arg LINUX_ALPINE_VERSION=3.12 --build-arg AWS_CLI_VERSION=1.18.208 -f $DOCKERFILE_PATH -t $IMAGE_NAME .
