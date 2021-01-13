@@ -17,7 +17,7 @@ echo "DEBUG: Done"
 
 ### Private files.
 
-echo "DEBUG: Starting import of private files from $FILES_PRIVATE_FOLDER to $FILES_PRIVATE_FOLDER..."
+echo "DEBUG: Starting import of private files from $FILES_PRIVATE_BACKUPS_S3_FOLDER to $FILES_PRIVATE_FOLDER..."
 aws s3 sync --delete "$FILES_PRIVATE_BACKUPS_S3_FOLDER" "$FILES_PRIVATE_FOLDER"
 echo "DEBUG: Done"
 
