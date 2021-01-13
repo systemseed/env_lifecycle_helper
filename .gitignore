@@ -1,0 +1,8 @@
+# IDE folder.
+.idea
+
+# Auto-generated file with sensitive environment variables.
+.env.local
+
+# Local helpers to debug the scripts.
+_helpers
