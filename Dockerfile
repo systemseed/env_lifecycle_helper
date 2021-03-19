@@ -14,6 +14,7 @@ ENV PATH="/src/scripts:${PATH}"
 # Install the basic tools.
 RUN apk add --update \
     bash \
+    jq \
     python3 \
     python3-dev \
     py3-pip \
