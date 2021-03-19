@@ -7,9 +7,6 @@ export MYSQL_PWD="$DB_MASTER_PASSWORD"
 export MYSQL_HOST="$DB_HOST"
 export MYSQL_TCP_PORT="$DB_PORT"
 
-# TODO: Delete.
-echo "MASTER PASSWORD IS $MYSQL_PWD"
-
 echo "DEBUG: Deleting the user ${DB_USER} if exists..."
 mysql -e "DROP USER IF EXISTS '${DB_USER}'@'%';"
 echo "DEBUG: Done"

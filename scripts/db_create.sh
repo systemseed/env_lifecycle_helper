@@ -7,9 +7,6 @@ export MYSQL_PWD="$DB_MASTER_PASSWORD"
 export MYSQL_HOST="$DB_HOST"
 export MYSQL_TCP_PORT="$DB_PORT"
 
-# TODO: Delete.
-echo "MASTER PASSWORD IS $MYSQL_PWD"
-
 # Create a new user or don't do anything if the user already exists.
 # This is done so that in case if we want to use the same database
 # for the release we can use the same username.
