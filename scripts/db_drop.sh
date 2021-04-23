@@ -2,6 +2,7 @@
 set -e
 
 # Export default variables.
+DB_MASTER_PASSWORD="$(aws secretsmanager get-secret-value --secret-id="$SECRET_NAME" --query SecretString --output text | jq -r ."$SECRET_MASTER_PASSWORD_KEY")"
 export MYSQL_PWD="$DB_MASTER_PASSWORD"
 export MYSQL_HOST="$DB_HOST"
 export MYSQL_TCP_PORT="$DB_PORT"
