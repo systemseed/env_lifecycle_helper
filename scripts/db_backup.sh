@@ -10,7 +10,7 @@ export MYSQL_PWD="$DB_PASSWORD"
 CURRENT_TIMESTAMP=$(date +%Y-%m-%dT%TZ)
 BACKUP_FILENAME="${CURRENT_TIMESTAMP}.gzip"
 echo "DEBUG: Dumping database ${DB_NAME} into ${BACKUP_FILENAME} as a single transaction..."
-mysqldump -u "${DB_USER}" --host "${DB_HOST}" --single-transaction=TRUE "${DB_NAME}" | gzip -9 > "${BACKUP_FILENAME}"
+mysqldump -u "${DB_USER}" --host "${DB_HOST}" --single-transaction=TRUE --no-tablespaces "${DB_NAME}" | gzip -9 > "${BACKUP_FILENAME}"
 echo "DEBUG: Done"
 
 BACKUP_S3_PATH="${DB_BACKUPS_S3_FOLDER}${BACKUP_FILENAME}"
