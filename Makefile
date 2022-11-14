@@ -19,7 +19,6 @@ build:
 		-t $(COMPOSE_PROJECT_NAME) \
 		--build-arg LINUX_ALPINE_VERSION=$(LINUX_ALPINE_VERSION) \
 		--build-arg AWS_CLI_VERSION=$(AWS_CLI_VERSION) \
-		--build-arg S3CMD_VERSION=$(S3CMD_VERSION) \
 		-f Dockerfile
 
 # https://stackoverflow.com/a/6273809/1826109
