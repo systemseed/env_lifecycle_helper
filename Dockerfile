@@ -18,11 +18,15 @@ RUN apk add --update \
     python3 \
     python3-dev \
     py3-pip \
-    mysql-client \
-    s3cmd
+    mysql-client
 
 # Install AWS CLI.
 ARG AWS_CLI_VERSION
 RUN pip install awscli==$AWS_CLI_VERSION --upgrade --user && \
     rm /var/cache/apk/*
+
+# Install s3cmd.
+ARG S3CMD_VERSION
+RUN pip install s3cmd==$S3CMD_VERSION
+
 ENV PATH="~/.local/bin:${PATH}"
