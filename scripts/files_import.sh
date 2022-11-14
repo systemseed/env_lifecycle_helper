@@ -8,7 +8,9 @@ echo "DEBUG: FILES_PUBLIC_EXCLUDE_FOLDERS is $FILES_PUBLIC_EXCLUDE_FOLDERS"
 
 exclude_folders=($FILES_PUBLIC_EXCLUDE_FOLDERS)
 for sync_arg in ${exclude_folders[@]}; do
-  sync_args+=("--exclude '$FILES_PUBLIC_BACKUPS_S3_FOLDER$sync_arg'")
+  sync_args+=("--exclude $FILES_PUBLIC_BACKUPS_S3_FOLDER$sync_arg")
+  sync_args+=("--exclude $sync_arg")
+  sync_args+=("--exclude */$sync_arg")
 done
 echo ${sync_args[@]}
 echo "DEBUG: Starting import of public files from $FILES_PUBLIC_BACKUPS_S3_FOLDER to $FILES_PUBLIC_FOLDER..."
