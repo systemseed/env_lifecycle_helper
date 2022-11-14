@@ -3,16 +3,16 @@ set -e
 
 ### Public files.
 
-#FILES_PUBLIC_EXCLUDE_FOLDERS="one/* two/* three/*"
+#FILES_PUBLIC_EXCLUDE_FOLDERS="one/* two/* three/four/*"
 echo "DEBUG: FILES_PUBLIC_EXCLUDE_FOLDERS is $FILES_PUBLIC_EXCLUDE_FOLDERS"
 
 exclude_folders=($FILES_PUBLIC_EXCLUDE_FOLDERS)
 for sync_arg in ${exclude_folders[@]}; do
-  sync_args+=('--exclude "'$sync_arg'"')
+  sync_args+=("--exclude '$sync_arg'")
 done
 
 echo "DEBUG: Starting import of public files from $FILES_PUBLIC_BACKUPS_S3_FOLDER to $FILES_PUBLIC_FOLDER..."
-time aws s3 sync --delete "${sync_args[@]}" "$FILES_PUBLIC_BACKUPS_S3_FOLDER" "$FILES_PUBLIC_FOLDER"
+time aws s3 sync --delete ${sync_args[@]} "$FILES_PUBLIC_BACKUPS_S3_FOLDER" "$FILES_PUBLIC_FOLDER"
 echo "DEBUG: Done"
 
 echo "DEBUG: Changing owner of public files to ${OWNER_UID}:${OWNER_GID}..."
