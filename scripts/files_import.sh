@@ -3,28 +3,37 @@ set -e
 
 ### Public files.
 
+#FILES_PUBLIC_EXCLUDE_FOLDERS="styles/* css/* js/*"
+echo "DEBUG: FILES_PUBLIC_EXCLUDE_FOLDERS is $FILES_PUBLIC_EXCLUDE_FOLDERS"
+
+# Prepare list of excluded folders for the public files.
+exclude_folders=($FILES_PUBLIC_EXCLUDE_FOLDERS)
+for sync_arg in ${exclude_folders[@]}; do
+  sync_args+=("--exclude $sync_arg")
+done
+
 echo "DEBUG: Starting import of public files from $FILES_PUBLIC_BACKUPS_S3_FOLDER to $FILES_PUBLIC_FOLDER..."
-aws s3 sync --delete "$FILES_PUBLIC_BACKUPS_S3_FOLDER" "$FILES_PUBLIC_FOLDER"
+time aws s3 sync --delete ${sync_args[@]} "$FILES_PUBLIC_BACKUPS_S3_FOLDER" "$FILES_PUBLIC_FOLDER"
 echo "DEBUG: Done"
 
 echo "DEBUG: Changing owner of public files to ${OWNER_UID}:${OWNER_GID}..."
-chown -R "$OWNER_UID":"$OWNER_GID" "$FILES_PUBLIC_FOLDER"
+time chown -R "$OWNER_UID":"$OWNER_GID" "$FILES_PUBLIC_FOLDER"
 echo "DEBUG: Done"
 
 echo "DEBUG: Changing permissions of public files to 775..."
-chmod -R ug=rwx,o=rx "$FILES_PUBLIC_FOLDER"
+time chmod -R ug=rwx,o=rx "$FILES_PUBLIC_FOLDER"
 echo "DEBUG: Done"
 
 ### Private files.
 
 echo "DEBUG: Starting import of private files from $FILES_PRIVATE_BACKUPS_S3_FOLDER to $FILES_PRIVATE_FOLDER..."
-aws s3 sync --delete "$FILES_PRIVATE_BACKUPS_S3_FOLDER" "$FILES_PRIVATE_FOLDER"
+time aws s3 sync --delete "$FILES_PRIVATE_BACKUPS_S3_FOLDER" "$FILES_PRIVATE_FOLDER"
 echo "DEBUG: Done"
 
 echo "DEBUG: Changing owner of private files to ${OWNER_UID}:${OWNER_GID}..."
-chown -R "$OWNER_UID":"$OWNER_GID" "$FILES_PRIVATE_FOLDER"
+time chown -R "$OWNER_UID":"$OWNER_GID" "$FILES_PRIVATE_FOLDER"
 echo "DEBUG: Done"
 
 echo "DEBUG: Changing permissions of private files to 775..."
-chmod -R ug=rwx,o=rx "$FILES_PRIVATE_FOLDER"
+time chmod -R ug=rwx,o=rx "$FILES_PRIVATE_FOLDER"
 echo "DEBUG: Done"
