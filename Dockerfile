@@ -18,7 +18,8 @@ RUN apk add --update \
     python3 \
     python3-dev \
     py3-pip \
-    mysql-client
+    mysql-client \
+    s3cmd
 
 # Install AWS CLI.
 ARG AWS_CLI_VERSION
