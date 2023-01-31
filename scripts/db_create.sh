@@ -43,8 +43,10 @@ echo "DEBUG: Creating database ${DB_NAME}..."
 mysql -e "CREATE DATABASE ${DB_NAME};"
 echo "DEBUG: Done"
 
-echo "DEBUG: Figuring out the latest database backup from ${DB_BACKUPS_S3_FOLDER}..."
-BACKUP_FILENAME=$(aws s3 ls "${DB_BACKUPS_S3_FOLDER}" | sort | tail -n 1 | awk '{print $4}')
+echo "DEBUG: Figuring out the latest full database backup from ${DB_BACKUPS_S3_FOLDER}..."
+# Finds 10 latest database backups, then check which of them has "-full" suffix. It means that db has all needed data
+# and ensures it takes only 1 latest backup.
+BACKUP_FILENAME=$(aws s3 ls "${DB_BACKUPS_S3_FOLDER}" | sort | tail -n 10 | awk '{print $4}' | grep -w ".*-full.gzip" | tail -n 1)
 BACKUP_S3_PATH="${DB_BACKUPS_S3_FOLDER}${BACKUP_FILENAME}"
 echo "DEBUG: Selected S3 URI for the backup is $BACKUP_S3_PATH"
 echo "DEBUG: Done"
