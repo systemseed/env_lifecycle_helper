@@ -1,3 +1,6 @@
+# 1.0.3
+- Database backups now make 2 versions of database: one with full dump (as before) and one without PII data.
+
 # 1.0.2
 - Added ability to exclude public folders from the initial files import.
 

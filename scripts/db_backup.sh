@@ -12,7 +12,7 @@ export MYSQL_PWD="$DB_PASSWORD"
 ###
 
 CURRENT_TIMESTAMP=$(date +%Y-%m-%dT%TZ)
-BACKUP_FILENAME="${CURRENT_TIMESTAMP}.gzip"
+BACKUP_FILENAME="${CURRENT_TIMESTAMP}-full.gzip"
 echo "DEBUG: Dumping full database ${DB_NAME} into ${BACKUP_FILENAME} as a single transaction..."
 mysqldump -u "${DB_USER}" --host "${DB_HOST}" --single-transaction --no-tablespaces "${DB_NAME}" | gzip -9 > "${BACKUP_FILENAME}"
 echo "DEBUG: Done"
