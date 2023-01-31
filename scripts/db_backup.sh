@@ -73,11 +73,9 @@ mysqldump -u "${DB_USER}" --host "${DB_HOST}" --single-transaction --no-tablespa
 echo "DEBUG: Gzipping the database dump without PII..."
 cat "${BACKUP_FILENAME}.tmp" | gzip -9 > "${BACKUP_FILENAME}"
 
-echo "DEBUG: Uploading backup to S3 path ${BACKUP_S3_PATH}..."
 BACKUP_S3_PATH="${DB_BACKUPS_S3_FOLDER}${BACKUP_FILENAME}"
+echo "DEBUG: Uploading backup to S3 path ${BACKUP_S3_PATH}..."
 aws s3 cp "${BACKUP_FILENAME}" "${BACKUP_S3_PATH}"
-echo "DEBUG: Done"
 
 rm "${BACKUP_FILENAME}.tmp"
-
 echo "DEBUG: Done"
