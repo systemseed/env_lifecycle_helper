@@ -39,7 +39,7 @@ do
   # If the table name has wildcard char "%" then we load all tables
   # matching this wildcard table name.
   if [[ "$TABLE" == *"%"* ]]; then
-    mapfile MATCHING_TABLES < <(mysql -u "${DB_USER}" --host "${DB_HOST}" -e "SHOW TABLES LIKE '$TABLE'")
+    mapfile MATCHING_TABLES < <(mysql -u "${DB_USER}" --host "${DB_HOST}" "${DB_NAME}" -e "SHOW TABLES LIKE '$TABLE'")
 
     # Note: the first array element is NOT a table name but a generic
     # mysql string (table header). Therefore we should remove it.
