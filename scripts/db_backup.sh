@@ -26,7 +26,7 @@ echo "DEBUG: Done"
 # DATABASE DUMP WITHOUT PII.
 ###
 
-BACKUP_FILENAME_WITHOUT_PII="${CURRENT_TIMESTAMP}-without-pii.gzip"
+BACKUP_FILENAME="${CURRENT_TIMESTAMP}-without-pii.gzip"
 echo "DEBUG: Starting db dump without PII..."
 
 # Convert list of tables containing PII into an array.
@@ -65,19 +65,19 @@ do :
 done
 
 echo "DEBUG: Dumping database structure without data..."
-mysqldump -u "${DB_USER}" --host "${DB_HOST}" --single-transaction --no-tablespaces --no-data --routines "${DB_NAME}" > "${BACKUP_FILENAME_WITHOUT_PII}.tmp"
+mysqldump -u "${DB_USER}" --host "${DB_HOST}" --single-transaction --no-tablespaces --no-data --routines "${DB_NAME}" > "${BACKUP_FILENAME}.tmp"
 
 echo "DEBUG: Dumping database content for all tables apart from ignored tables..."
-mysqldump -u "${DB_USER}" --host "${DB_HOST}" --single-transaction --no-tablespaces --no-create-info --skip-triggers $TABLES_TO_IGNORE_STRING "${DB_NAME}" >> "${BACKUP_FILENAME_WITHOUT_PII}.tmp"
+mysqldump -u "${DB_USER}" --host "${DB_HOST}" --single-transaction --no-tablespaces --no-create-info --skip-triggers $TABLES_TO_IGNORE_STRING "${DB_NAME}" >> "${BACKUP_FILENAME}.tmp"
 
 echo "DEBUG: Gzipping the database dump without PII..."
-cat "${BACKUP_FILENAME_WITHOUT_PII}.tmp" | gzip -9 > "${BACKUP_FILENAME_WITHOUT_PII}"
+cat "${BACKUP_FILENAME}.tmp" | gzip -9 > "${BACKUP_FILENAME}"
 
 echo "DEBUG: Uploading backup to S3 path ${BACKUP_S3_PATH}..."
-BACKUP_S3_PATH="${DB_BACKUPS_S3_FOLDER}${BACKUP_FILENAME_WITHOUT_PII}"
-aws s3 cp "${BACKUP_FILENAME_WITHOUT_PII}" "${BACKUP_S3_PATH}"
+BACKUP_S3_PATH="${DB_BACKUPS_S3_FOLDER}${BACKUP_FILENAME}"
+aws s3 cp "${BACKUP_FILENAME}" "${BACKUP_S3_PATH}"
 echo "DEBUG: Done"
 
-rm "${BACKUP_FILENAME_WITHOUT_PII}.tmp"
+rm "${BACKUP_FILENAME}.tmp"
 
 echo "DEBUG: Done"
