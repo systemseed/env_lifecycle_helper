@@ -43,10 +43,22 @@ echo "DEBUG: Creating database ${DB_NAME}..."
 mysql -e "CREATE DATABASE ${DB_NAME};"
 echo "DEBUG: Done"
 
-echo "DEBUG: Figuring out the latest full database backup from ${DB_BACKUPS_S3_FOLDER}..."
-# Finds 10 latest database backups, then check which of them has "-full" suffix. It means that db has all needed data
-# and ensures it takes only 1 latest backup.
-BACKUP_FILENAME=$(aws s3 ls "${DB_BACKUPS_S3_FOLDER}" | sort | tail -n 10 | awk '{print $4}' | grep -w ".*-full.gzip" | tail -n 1)
+# Depending on the mode selected, database might be created using backup with or without PII.
+if [[ -n $DB_CREATE_WITHOUT_PII ]];
+then
+  echo "DEBUG: Database will be created without PII (personal identifiable information)..."
+  BACKUP_FILENAME_SUFFIX="without-pii"
+else
+  echo "DEBUG: Database will be created with PII (personal identifiable information)..."
+  BACKUP_FILENAME_SUFFIX="full"
+ exit;
+fi
+
+echo "DEBUG: Figuring out the latest database backup from ${DB_BACKUPS_S3_FOLDER}..."
+# Finds 10 latest database backups, then check which of them has the appropriate suffix (with or without PII), then
+# take only the one latest. Technically we could have checked only 2 latest backups and not 10, but it was done for
+# extra assurance that within 10 latest backups at least one should almost definitely have the right suffix.
+BACKUP_FILENAME=$(aws s3 ls "${DB_BACKUPS_S3_FOLDER}" | sort | tail -n 10 | awk '{print $4}' | grep -w ".*-${BACKUP_FILENAME_SUFFIX}.gzip" | tail -n 1)
 BACKUP_S3_PATH="${DB_BACKUPS_S3_FOLDER}${BACKUP_FILENAME}"
 echo "DEBUG: Selected S3 URI for the backup is $BACKUP_S3_PATH"
 echo "DEBUG: Done"
