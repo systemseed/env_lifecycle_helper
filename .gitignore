@@ -6,3 +6,6 @@
 
 # Local helpers to debug the scripts.
 _helpers
+
+# Ignored mac's file.
+.DS_Store
