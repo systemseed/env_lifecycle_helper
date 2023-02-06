@@ -1,3 +1,6 @@
+# 1.0.5
+- Get rid of the occasional exit when importing production database.
+
 # 1.0.4
 - Allow creating dev environments with databases without PII
 

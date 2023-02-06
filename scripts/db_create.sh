@@ -51,7 +51,6 @@ then
 else
   echo "DEBUG: Database will be created with PII (personal identifiable information)..."
   BACKUP_FILENAME_SUFFIX="full"
- exit;
 fi
 
 echo "DEBUG: Figuring out the latest database backup from ${DB_BACKUPS_S3_FOLDER}..."
