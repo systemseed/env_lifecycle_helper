@@ -1,3 +1,6 @@
+# 1.0.4
+- Allow creating dev environments with databases without PII
+
 # 1.0.3
 - Database backups now make 2 versions of database: one with full dump (as before) and one without PII data.
 
